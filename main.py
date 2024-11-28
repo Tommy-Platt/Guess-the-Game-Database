@@ -12,6 +12,10 @@ def Home():
 
 @app.route("/login", methods=["GET", "POST"])
 def Login():
+
+    if session.get('username') != None:
+            return redirect("/")
+
     # They sent us data, get the username and password
     # then check if their details are correct.
     if request.method == "POST":
@@ -38,6 +42,9 @@ def Logout():
 @app.route("/register", methods=["GET", "POST"])
 def Register():
 
+    if session.get('username') != None:
+        return redirect("/")
+    
     # If they click the submit button, let's register
     if request.method == "POST":
         username = request.form['username']
@@ -52,6 +59,9 @@ def Register():
 
 @app.route("/add", methods=["GET","POST"])
 def Add():
+    # Check if they are logged in first
+    if session.get('username') == None:
+        return redirect("/")
 
     # Did they click submit?
     if request.method == "POST":
